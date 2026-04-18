@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>长春文旅 - 北国春城，魅力之都</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E90FF',
+                        secondary: '#0066CC',
+                        accent: '#FF6B35',
+                        success: '#2ECC71',
+                        warning: '#F39C12',
+                        light: '#F8FAFC',
+                        dark: '#1E293B',
+                        ice: '#E0F2FE',
+                        nature: '#10B981',
+                        history: '#D97706'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            }
+            .text-shadow-light {
+                text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            }
+            .bg-gradient-ice {
+                background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 50%, #0369A1 100%);
+            }
+            .bg-gradient-nature {
+                background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+            }
+            .bg-gradient-history {
+                background: linear-gradient(135deg, #D97706 0%, #B45309 50%, #92400E 100%);
+            }
+            .bg-gradient-hero {
+                background: linear-gradient(135deg, #1E3A5F 0%, #2D5A87 30%, #1E90FF 70%, #60A5FA 100%);
+            }
+            .hover-lift {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .hover-lift:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(30, 144, 255, 0.2);
+            }
+            .animate-fadeIn {
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-float {
+                animation: float 3s ease-in-out infinite;
+            }
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s infinite;
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.7; }
+            }
+            .scroll-smooth {
+                scroll-behavior: smooth;
+            }
+            .snowflake {
+                position: absolute;
+                background: white;
+                border-radius: 50%;
+                opacity: 0.8;
+                animation: snowfall linear infinite;
+            }
+            @keyframes snowfall {
+                0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+                10% { opacity: 0.8; }
+                90% { opacity: 0.8; }
+                100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            }
+            .card-border-ice {
+                position: relative;
+                border: 3px solid #38BDF8;
+                background: linear-gradient(135deg, rgba(224, 242, 254, 0.9) 0%, rgba(240, 249, 255, 0.95) 100%);
+            }
+            .card-border-ice::before {
+                content: '';
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                right: -3px;
+                bottom: -3px;
+                background: linear-gradient(135deg, #38BDF8 0%, #0284C7 50%, #38BDF8 100%);
+                z-index: -1;
+                border-radius: inherit;
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark scroll-smooth">
+    <!-- 雪花动画容器 -->
+    <div id="snowContainer" class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 overflow-hidden"></div>
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 bg-dark bg-opacity-95 backdrop-blur-sm shadow-lg z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
+                    <i class="fa fa-tree text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">长春文旅</h1>
+                    <p class="text-xs text-gray-400">北国春城 · 魅力之都</p>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#hero" class="text-white hover:text-primary transition-colors font-medium">首页</a>
+                <a href="#ice-world" class="text-white hover:text-primary transition-colors font-medium">冰雪新天地</a>
+                <a href="#zoo" class="text-white hover:text-primary transition-colors font-medium">动植物公园</a>
+                <a href="#history" class="text-white hover:text-primary transition-colors font-medium">历史文化</a>
+                <a href="#guide" class="text-white hover:text-primary transition-colors font-medium">旅游攻略</a>
+                <a href="#contact" class="text-white hover:text-primary transition-colors font-medium">联系我们</a>
+            </div>
+            <button class="md:hidden text-white focus:outline-none" id="mobileMenuBtn">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden bg-dark border-t border-gray-800">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="#hero" class="block text-white hover:text-primary transition-colors font-medium py-2">首页</a>
+                <a href="#ice-world" class="block text-white hover:text-primary transition-colors font-medium py-2">冰雪新天地</a>
+                <a href="#zoo" class="block text-white hover:text-primary transition-colors font-medium py-2">动植物公园</a>
+                <a href="#history" class="block text-white hover:text-primary transition-colors font-medium py-2">历史文化</a>
+                <a href="#guide" class="block text-white hover:text-primary transition-colors font-medium py-2">旅游攻略</a>
+                <a href="#contact" class="block text-white hover:text-primary transition-colors font-medium py-2">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <header id="hero" class="pt-32 pb-20 bg-gradient-hero text-white relative overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary via-transparent to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0">
+                    <div class="inline-block bg-primary bg-opacity-80 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6 animate-fadeIn">
+                        <i class="fa fa-snowflake-o mr-2"></i>北国春城 · 四季皆宜
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-shadow animate-fadeIn">
+                        来长春<br>
+                        <span class="text-sky-300">遇见不一样的风景</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 animate-fadeIn" style="animation-delay: 0.2s;">
+                        从冬日里梦幻的冰雪新天地，到与萌趣雪饼猴的亲密互动，再到穿越时空的历史文化之旅——长春，一座让人流连忘返的魅力之城。
+                    </p>
+                    <div class="flex flex-wrap gap-4 animate-fadeIn" style="animation-delay: 0.4s;">
+                        <a href="#ice-world" class="inline-block bg-primary text-white px-8 py-4 rounded-full font-semibold hover:bg-secondary transition-all shadow-lg">
+                            <i class="fa fa-snowflake-o mr-2"></i>探索冰雪新天地
+                        </a>
+                        <a href="#zoo" class="inline-block border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-dark transition-all">
+                            <i class="fa fa-paw mr-2"></i>遇见雪饼猴
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="relative animate-float">
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 h-64 lg:h-80 flex flex-col items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white to-transparent opacity-5 animate-pulse-slow"></div>
+                            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6 relative z-10">
+                                <i class="fa fa-tree text-white text-5xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white mb-2 relative z-10">北国春城</h4>
+                            <p class="text-blue-100 text-center relative z-10">吉林省 · 长春市</p>
+                            <div class="absolute top-4 right-4 flex flex-col gap-2">
+                                <div class="w-3 h-3 bg-white rounded-full opacity-60 animate-pulse-slow"></div>
+                                <div class="w-3 h-3 bg-sky-300 rounded-full opacity-40 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+                            </div>
+                            <div class="absolute bottom-4 left-4 flex flex-col gap-2">
+                                <div class="w-2 h-2 bg-white rounded-full opacity-50 animate-pulse-slow" style="animation-delay: 1s;"></div>
+                                <div class="w-2 h-2 bg-sky-200 rounded-full opacity-30 animate-pulse-slow" style="animation-delay: 1.5s;"></div>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-accent text-white px-6 py-3 rounded-lg shadow-lg animate-pulse-slow">
+                            <div class="flex items-center">
+                                <i class="fa fa-map-marker text-2xl mr-2"></i>
+                                <div>
+                                    <div class="font-bold">欢迎来到</div>
+                                    <div class="text-sm">吉林 · 长春</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white text-center animate-pulse-slow">
+            <p class="text-sm mb-2">向下滚动探索更多精彩</p>
+            <i class="fa fa-chevron-down text-2xl"></i>
+        </div>
+    </header>
+
+    <!-- 文旅项目概览 -->
+    <section id="overview" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primary bg-opacity-10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-star mr-2"></i>精选文旅项目
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    长春<span class="text-primary">三大主题</span>文旅体验
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    无论您是热爱冰雪的冒险家、亲近自然的亲子家庭，还是追寻历史的文化爱好者，长春都能满足您的期待。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 冰雪新天地 -->
+                <a href="#ice-world" class="bg-gradient-ice p-8 rounded-2xl hover-lift text-white cursor-pointer group">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition-all">
+                        <i class="fa fa-snowflake-o text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">冰雪新天地</h3>
+                    <p class="text-blue-100 mb-6">
+                        亚洲最大的冰雪主题乐园，49万平方米的冰雪梦幻世界。冰雕、雪雕、冰雪娱乐项目，让您在冬日里尽情狂欢。
+                    </p>
+                    <div class="flex items-center text-sm font-medium">
+                        <span>了解更多</span>
+                        <i class="fa fa-arrow-right ml-2 group-hover:ml-4 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- 动植物公园 -->
+                <a href="#zoo" class="bg-gradient-nature p-8 rounded-2xl hover-lift text-white cursor-pointer group">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition-all">
+                        <i class="fa fa-tree text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">动植物公园</h3>
+                    <p class="text-green-100 mb-6">
+                        与萌趣的雪饼猴亲密互动，感受大自然的生机与活力。适合亲子游、家庭休闲，是都市中的一片绿洲。
+                    </p>
+                    <div class="flex items-center text-sm font-medium">
+                        <span>了解更多</span>
+                        <i class="fa fa-arrow-right ml-2 group-hover:ml-4 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- 历史文化 -->
+                <a href="#history" class="bg-gradient-history p-8 rounded-2xl hover-lift text-white cursor-pointer group">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition-all">
+                        <i class="fa fa-university text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">历史文化之旅</h3>
+                    <p class="text-amber-100 mb-6">
+                        探访伪满皇宫等历史遗迹，了解长春作为"新京"的独特历史。穿越时空，感受这座城市的沧桑与变迁。
+                    </p>
+                    <div class="flex items-center text-sm font-medium">
+                        <span>了解更多</span>
+                        <i class="fa fa-arrow-right ml-2 group-hover:ml-4 transition-all"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 冰雪新天地 -->
+    <section id="ice-world" class="py-20 bg-gradient-ice text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-white bg-opacity-20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-snowflake-o mr-2"></i>冬季限定
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    长春<span class="text-sky-300">冰雪新天地</span>
+                </h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    亚洲最大的冰雪主题乐园，49万平方米的冰雪梦幻世界。每一个冬天，这里都会变成童话般的冰雪王国。
+                </p>
+            </div>
+
+            <!-- 主要展示 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="relative">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 h-80 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-sky-300 via-transparent to-blue-500 opacity-10"></div>
+                        <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6 relative z-10 animate-pulse-slow">
+                            <i class="fa fa-snowflake-o text-white text-5xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2 relative z-10">冰雪梦幻世界</h4>
+                        <p class="text-blue-100 text-center relative z-10 mb-4">49万平方米 · 亚洲最大冰雪乐园</p>
+                        <div class="flex gap-3 relative z-10">
+                            <div class="w-3 h-3 bg-sky-200 rounded-full animate-pulse-slow"></div>
+                            <div class="w-3 h-3 bg-blue-300 rounded-full animate-pulse-slow" style="animation-delay: 0.3s;"></div>
+                            <div class="w-3 h-3 bg-white rounded-full animate-pulse-slow" style="animation-delay: 0.6s;"></div>
+                        </div>
+                        <div class="absolute top-6 right-6 flex flex-col gap-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-star text-yellow-300"></i>
+                                <span class="text-sm text-blue-100">吉尼斯纪录</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-lightbulb-o text-yellow-200"></i>
+                                <span class="text-sm text-blue-100">灯光秀</span>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-6 left-6 flex flex-col gap-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-cutlery text-orange-300"></i>
+                                <span class="text-sm text-blue-100">特色美食</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-camera text-pink-300"></i>
+                                <span class="text-sm text-blue-100">网红打卡</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-4 -left-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                        <i class="fa fa-clock-o mr-2"></i>12月-次年2月开放
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-area-chart text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">规模宏大</h4>
+                                <p class="text-blue-100">49万平方米的冰雪园区，是亚洲最大的冰雪主题乐园。用冰量超过20万立方米，用雪量超过15万立方米。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-paint-brush text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">艺术瑰宝</h4>
+                                <p class="text-blue-100">数百座精美的冰雕雪雕作品，从古典建筑到现代艺术，每一件都是冰雪艺术的杰作。夜晚灯光秀更是美轮美奂。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fa fa-sliders text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">娱乐盛宴</h4>
+                                <p class="text-blue-100">500米超长冰滑梯、雪地摩托、冰上自行车、狗拉雪橇等数十项冰雪娱乐项目，让您玩得尽兴。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特色亮点 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-trophy text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">吉尼斯纪录</h4>
+                    <p class="text-sm text-blue-100">拥有多项吉尼斯世界纪录认证的冰建项目</p>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-lightbulb-o text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">灯光秀</h4>
+                    <p class="text-sm text-blue-100">夜间千万级灯光秀，打造梦幻光影世界</p>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-cutlery text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">特色美食</h4>
+                    <p class="text-sm text-blue-100">东北特色美食、热饮小吃，温暖您的胃</p>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-camera text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">网红打卡</h4>
+                    <p class="text-sm text-blue-100">数十处网红打卡点，拍照超出片</p>
+                </div>
+            </div>
+
+            <!-- 实用信息 -->
+            <div class="mt-16 bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
+                <h3 class="text-2xl font-bold mb-6 text-center">
+                    <i class="fa fa-info-circle mr-2"></i>实用信息
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-sky-300">
+                            <i class="fa fa-calendar mr-2"></i>开放时间
+                        </h4>
+                        <ul class="space-y-2 text-blue-100 text-sm">
+                            <li><strong>营业时间：</strong>10:00 - 21:30</li>
+                            <li><strong>停止入园：</strong>20:30</li>
+                            <li><strong>最佳观赏：</strong>17:00后灯光亮起</li>
+                            <li><strong>开放季节：</strong>每年12月-次年2月</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-sky-300">
+                            <i class="fa fa-ticket mr-2"></i>门票价格
+                        </h4>
+                        <ul class="space-y-2 text-blue-100 text-sm">
+                            <li><strong>成人票：</strong>¥298/人</li>
+                            <li><strong>儿童票：</strong>¥180/人（1.2-1.4米）</li>
+                            <li><strong>学生票：</strong>¥180/人（凭学生证）</li>
+                            <li><strong>老人票：</strong>¥180/人（65岁以上）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-sky-300">
+                            <i class="fa fa-bus mr-2"></i>交通指南
+                        </h4>
+                        <ul class="space-y-2 text-blue-100 text-sm">
+                            <li><strong>地址：</strong>长春市宽城区长春冰雪新天地</li>
+                            <li><strong>公交：</strong>124路、139路直达</li>
+                            <li><strong>自驾：</strong>导航搜索"长春冰雪新天地"</li>
+                            <li><strong>停车场：</strong>大型停车场，车位充足</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 动植物公园 -->
+    <section id="zoo" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-nature bg-opacity-10 text-nature px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-paw mr-2"></i>亲子优选
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    长春<span class="text-nature">动植物公园</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    遇见萌趣的雪饼猴，与大自然亲密接触。这里是孩子们的乐园，也是都市人群放松身心的好去处。
+                </p>
+            </div>
+
+            <!-- 雪饼猴专题 -->
+            <div class="bg-gradient-nature rounded-2xl p-8 text-white mb-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1">
+                        <div class="inline-block bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                            <i class="fa fa-heart mr-2"></i>明星动物
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">萌趣<span class="text-green-200">雪饼猴</span>等你来互动</h3>
+                        <p class="text-green-100 mb-6 text-lg">
+                            雪饼猴（日本猕猴）是长春动植物公园的"人气王"。这些可爱的小家伙们有着红红的脸蛋、毛茸茸的身体，性格活泼好动，喜欢与人互动。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                                <h4 class="font-bold mb-2">
+                                    <i class="fa fa-commenting mr-2"></i>互动体验
+                                </h4>
+                                <p class="text-sm text-green-100">可以近距离观察、拍照，在工作人员指导下喂食互动</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                                <h4 class="font-bold mb-2">
+                                    <i class="fa fa-users mr-2"></i>亲子友好
+                                </h4>
+                                <p class="text-sm text-green-100">特别适合带孩子来认识动物、培养爱心</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                                <i class="fa fa-camera mr-1"></i>拍照打卡
+                            </span>
+                            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                                <i class="fa fa-leaf mr-1"></i>亲近自然
+                            </span>
+                            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                                <i class="fa fa-child mr-1"></i>亲子教育
+                            </span>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 h-80 flex flex-col items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-green-300 via-transparent to-emerald-500 opacity-10"></div>
+                            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6 relative z-10 animate-float">
+                                <i class="fa fa-paw text-white text-5xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white mb-2 relative z-10">萌趣雪饼猴</h4>
+                            <p class="text-green-100 text-center relative z-10 mb-4">日本猕猴 · 公园人气王</p>
+                            <div class="flex gap-3 relative z-10">
+                                <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fa fa-heart text-red-300 mr-1"></i>可爱
+                                </div>
+                                <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fa fa-smile-o text-yellow-300 mr-1"></i>互动
+                                </div>
+                                <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fa fa-camera text-pink-300 mr-1"></i>拍照
+                                </div>
+                            </div>
+                            <div class="absolute top-6 right-6 w-4 h-4 bg-green-200 rounded-full opacity-60 animate-pulse-slow"></div>
+                            <div class="absolute top-12 left-8 w-3 h-3 bg-emerald-200 rounded-full opacity-50 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+                            <div class="absolute bottom-8 right-10 w-3 h-3 bg-white rounded-full opacity-40 animate-pulse-slow" style="animation-delay: 1s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 公园特色 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl overflow-hidden hover-lift border border-green-200">
+                    <div class="h-48 bg-gradient-to-br from-nature to-green-600 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 relative z-10">
+                            <i class="fa fa-paw text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white relative z-10">丰富的动物种类</h4>
+                        <div class="absolute top-4 right-4 w-8 h-8 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-6 left-6 w-6 h-6 bg-white bg-opacity-10 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-nature">
+                            <i class="fa fa-paw mr-2"></i>丰富的动物种类
+                        </h4>
+                        <p class="text-gray-600 mb-4">
+                            园内拥有东北虎、金丝猴、大熊猫、长颈鹿、斑马等数百种珍稀动物，是认识野生动物的绝佳场所。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">东北虎</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">金丝猴</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">长颈鹿</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">斑马</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl overflow-hidden hover-lift border border-green-200">
+                    <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-600 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 relative z-10">
+                            <i class="fa fa-leaf text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white relative z-10">美丽的植物园区</h4>
+                        <div class="absolute top-4 left-4 w-8 h-8 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-6 right-6 w-6 h-6 bg-white bg-opacity-10 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-nature">
+                            <i class="fa fa-leaf mr-2"></i>美丽的植物园区
+                        </h4>
+                        <p class="text-gray-600 mb-4">
+                            除了动物观赏，园内还有丰富的植物展区。四季花开，绿树成荫，是拍照赏景的好地方。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">温室大棚</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">四季花卉</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">珍稀植物</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">林荫步道</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl overflow-hidden hover-lift border border-green-200">
+                    <div class="h-48 bg-gradient-to-br from-teal-500 to-cyan-600 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 relative z-10">
+                            <i class="fa fa-child text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white relative z-10">亲子教育体验</h4>
+                        <div class="absolute top-4 right-4 w-6 h-6 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-6 left-6 w-8 h-8 bg-white bg-opacity-10 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-nature">
+                            <i class="fa fa-child mr-2"></i>亲子教育体验
+                        </h4>
+                        <p class="text-gray-600 mb-4">
+                            定期举办动物科普活动、喂食体验、科普讲解等，是孩子们学习自然知识的生动课堂。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">科普讲解</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">喂食体验</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">互动游戏</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">研学活动</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 实用信息 -->
+            <div class="bg-gray-50 rounded-2xl p-8">
+                <h3 class="text-2xl font-bold mb-6 text-center text-nature">
+                    <i class="fa fa-info-circle mr-2"></i>实用信息
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h4 class="font-bold mb-3 text-nature">
+                            <i class="fa fa-clock-o mr-2"></i>开放时间
+                        </h4>
+                        <ul class="space-y-1 text-gray-600 text-sm">
+                            <li><strong>夏季：</strong>8:00 - 17:00</li>
+                            <li><strong>冬季：</strong>8:30 - 16:30</li>
+                            <li><strong>停止售票：</strong>闭园前1小时</li>
+                            <li><strong>全年开放</strong></li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h4 class="font-bold mb-3 text-nature">
+                            <i class="fa fa-ticket mr-2"></i>门票价格
+                        </h4>
+                        <ul class="space-y-1 text-gray-600 text-sm">
+                            <li><strong>成人票：</strong>¥30/人</li>
+                            <li><strong>儿童票：</strong>¥15/人（1.2-1.4米）</li>
+                            <li><strong>学生票：</strong>¥15/人（凭学生证）</li>
+                            <li><strong>老人票：</strong>¥15/人（60岁以上）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h4 class="font-bold mb-3 text-nature">
+                            <i class="fa fa-map-marker mr-2"></i>地理位置
+                        </h4>
+                        <ul class="space-y-1 text-gray-600 text-sm">
+                            <li><strong>地址：</strong>长春市南关区自由大路2121号</li>
+                            <li><strong>公交：</strong>88路、125路、227路、238路等</li>
+                            <li><strong>地铁：</strong>轨道交通3号线"动植物园站"</li>
+                            <li><strong>自驾：</strong>园内停车场可停</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h4 class="font-bold mb-3 text-nature">
+                            <i class="fa fa-lightbulb-o mr-2"></i>游玩建议
+                        </h4>
+                        <ul class="space-y-1 text-gray-600 text-sm">
+                            <li><strong>建议时长：</strong>3-4小时</li>
+                            <li><strong>最佳时间：</strong>上午9-11点（动物活跃）</li>
+                            <li><strong>必备物品：</strong>舒适的鞋子、饮用水</li>
+                            <li><strong>温馨提示：</strong>请遵守园内规定，文明观赏</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 历史文化 -->
+    <section id="history" class="py-20 bg-gradient-history text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-amber-900"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-white bg-opacity-20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-book mr-2"></i>历史印记
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    长春<span class="text-amber-200">历史文化</span>之旅
+                </h2>
+                <p class="text-xl text-amber-100 max-w-3xl mx-auto">
+                    探访伪满皇宫等历史遗迹，了解这座城市的独特历史。穿越时空，感受长春的沧桑与变迁。
+                </p>
+            </div>
+
+            <!-- 伪满皇宫专题 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="relative">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 h-80 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-300 via-transparent to-orange-500 opacity-10"></div>
+                        <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6 relative z-10">
+                            <i class="fa fa-university text-white text-5xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2 relative z-10">伪满皇宫博物院</h4>
+                        <p class="text-amber-100 text-center relative z-10 mb-4">国家AAAAA级旅游景区</p>
+                        <div class="flex gap-3 relative z-10">
+                            <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                <i class="fa fa-book text-amber-200 mr-1"></i>历史
+                            </div>
+                            <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                <i class="fa fa-flag text-red-300 mr-1"></i>文化
+                            </div>
+                            <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                <i class="fa fa-building text-orange-200 mr-1"></i>建筑
+                            </div>
+                        </div>
+                        <div class="absolute top-6 right-6 w-10 h-10 border-2 border-amber-300 rounded-full opacity-40"></div>
+                        <div class="absolute bottom-6 left-6 w-8 h-8 border-2 border-white rounded-full opacity-30"></div>
+                        <div class="absolute top-1/3 left-8 w-4 h-4 bg-amber-200 rounded-full opacity-50 animate-pulse-slow"></div>
+                        <div class="absolute bottom-1/4 right-10 w-3 h-3 bg-white rounded-full opacity-40 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+                    </div>
+                    <div class="absolute -top-4 -right-4 bg-history text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                        <i class="fa fa-flag mr-2"></i>AAAAA级景区
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <h3 class="text-2xl font-bold mb-4 text-amber-200">伪满皇宫博物院</h3>
+                        <p class="text-amber-100 mb-4">
+                            伪满皇宫是中国末代皇帝爱新觉罗·溥仪在"伪满洲国"时期的宫殿，也是长春最具代表性的历史文化景点之一。这里保存了大量的历史文物和建筑，是了解那段特殊历史的重要场所。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start">
+                                <i class="fa fa-check-circle text-amber-300 mt-1 mr-3"></i>
+                                <span class="text-sm text-amber-100">中国现存三大宫廷遗址之一</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fa fa-check-circle text-amber-300 mt-1 mr-3"></i>
+                                <span class="text-sm text-amber-100">国家AAAAA级旅游景区</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fa fa-check-circle text-amber-300 mt-1 mr-3"></i>
+                                <span class="text-sm text-amber-100">全国爱国主义教育示范基地</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fa fa-check-circle text-amber-300 mt-1 mr-3"></i>
+                                <span class="text-sm text-amber-100">馆藏文物近7万件</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-amber-200">
+                            <i class="fa fa-university mr-2"></i>主要看点
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="font-bold text-sm">1</span>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold">同德殿</h5>
+                                    <p class="text-sm text-amber-100">伪满皇宫的核心建筑，溥仪的宫殿</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="font-bold text-sm">2</span>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold">缉熙楼</h5>
+                                    <p class="text-sm text-amber-100">溥仪及其后妃的寝宫，生活区</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="font-bold text-sm">3</span>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold">勤民楼</h5>
+                                    <p class="text-sm text-amber-100">溥仪处理政务、举行典礼的场所</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他历史景点 -->
+            <h3 class="text-2xl font-bold mb-8 text-center">
+                <i class="fa fa-map-marker mr-2"></i>更多历史文化景点
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-xl overflow-hidden hover-lift border border-amber-200">
+                    <div class="h-40 bg-gradient-to-br from-history to-orange-600 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-3 relative z-10">
+                            <i class="fa fa-university text-white text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white relative z-10">吉林省博物院</h4>
+                        <div class="absolute top-4 right-4 w-6 h-6 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-4 left-4 w-5 h-5 bg-amber-200 bg-opacity-20 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2 text-history">吉林省博物院</h4>
+                        <p class="text-gray-700 text-sm mb-4">国家一级博物馆，展示吉林历史文化与自然标本。常设展览丰富，是了解吉林省历史的重要窗口。</p>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-location-arrow mr-2 text-history"></i>
+                            <span>净月开发区</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-xl overflow-hidden hover-lift border border-amber-200">
+                    <div class="h-40 bg-gradient-to-br from-orange-500 to-red-600 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-3 relative z-10">
+                            <i class="fa fa-film text-white text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white relative z-10">长影旧址博物馆</h4>
+                        <div class="absolute top-4 left-4 w-6 h-6 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-4 right-4 w-5 h-5 bg-orange-200 bg-opacity-20 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2 text-history">长影旧址博物馆</h4>
+                        <p class="text-gray-700 text-sm mb-4">长春电影制片厂旧址，展示新中国电影发展历程。这里是新中国电影的摇篮，见证了无数经典影片的诞生。</p>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-location-arrow mr-2 text-history"></i>
+                            <span>朝阳区红旗街</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-xl overflow-hidden hover-lift border border-amber-200">
+                    <div class="h-40 bg-gradient-to-br from-amber-600 to-yellow-700 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white opacity-5"></div>
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-3 relative z-10">
+                            <i class="fa fa-building text-white text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white relative z-10">新民大街历史建筑群</h4>
+                        <div class="absolute top-4 right-4 w-5 h-5 bg-white bg-opacity-10 rounded-full"></div>
+                        <div class="absolute bottom-4 left-4 w-6 h-6 bg-yellow-200 bg-opacity-20 rounded-full"></div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2 text-history">新民大街历史建筑群</h4>
+                        <p class="text-gray-700 text-sm mb-4">长春"八大部"旧址所在地，伪满时期的官厅建筑集中区。欧式风格建筑林立，是长春历史风貌的重要代表。</p>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-location-arrow mr-2 text-history"></i>
+                            <span>朝阳区新民大街</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 实用信息 -->
+            <div class="mt-16 bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
+                <h3 class="text-2xl font-bold mb-6 text-center">
+                    <i class="fa fa-info-circle mr-2"></i>伪满皇宫实用信息
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-amber-200">
+                            <i class="fa fa-clock-o mr-2"></i>开放时间
+                        </h4>
+                        <ul class="space-y-1 text-amber-100 text-sm">
+                            <li><strong>夏季：</strong>8:30 - 17:20</li>
+                            <li><strong>冬季：</strong>8:30 - 16:50</li>
+                            <li><strong>停止售票：</strong>闭馆前1小时</li>
+                            <li><strong>周一闭馆</strong>（法定假日除外）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-amber-200">
+                            <i class="fa fa-ticket mr-2"></i>门票价格
+                        </h4>
+                        <ul class="space-y-1 text-amber-100 text-sm">
+                            <li><strong>成人票：</strong>¥70/人</li>
+                            <li><strong>学生票：</strong>¥30/人（凭学生证）</li>
+                            <li><strong>老人票：</strong>¥30/人（60-64岁）</li>
+                            <li><strong>免费：</strong>65岁以上、现役军人</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-amber-200">
+                            <i class="fa fa-map-marker mr-2"></i>地理位置
+                        </h4>
+                        <ul class="space-y-1 text-amber-100 text-sm">
+                            <li><strong>地址：</strong>长春市宽城区光复北路5号</li>
+                            <li><strong>公交：</strong>264路直达</li>
+                            <li><strong>地铁：</strong>轨道交通4号线"伪满皇宫站"</li>
+                            <li><strong>自驾：</strong>停车场充足</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <h4 class="font-bold mb-3 text-amber-200">
+                            <i class="fa fa-lightbulb-o mr-2"></i>参观建议
+                        </h4>
+                        <ul class="space-y-1 text-amber-100 text-sm">
+                            <li><strong>建议时长：</strong>2-3小时</li>
+                            <li><strong>推荐：</strong>聘请讲解员或租讲解器</li>
+                            <li><strong>注意：</strong>室内展区禁止拍照</li>
+                            <li><strong>周边：</strong>可顺路参观光复路市场</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 旅游攻略 -->
+    <section id="guide" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primary bg-opacity-10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-map mr-2"></i>出行指南
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    长春<span class="text-primary">旅游攻略</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    最佳旅游时间、交通出行、住宿推荐，让您的长春之旅更加便捷舒心。
+                </p>
+            </div>
+
+            <!-- 最佳时间 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <div class="bg-gradient-ice rounded-2xl p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-6">
+                        <i class="fa fa-snowflake-o mr-2"></i>冬季（12月-2月）
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-sky-300">推荐理由</h4>
+                            <p class="text-blue-100 text-sm">
+                                长春的冬季是最美的季节！冰雪新天地开放，可以欣赏壮观的冰雕雪雕，体验各种冰雪活动。虽然寒冷，但别有一番风味。
+                            </p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-sky-300">必玩项目</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">冰雪新天地</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">净月潭滑雪</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">查干湖冬捕</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">泡温泉</span>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-sky-300">穿衣指南</h4>
+                            <p class="text-blue-100 text-sm">
+                                气温在-20°C左右，需要穿羽绒服、厚毛衣、加绒裤、雪地靴，帽子、围巾、手套缺一不可。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-nature rounded-2xl p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-6">
+                        <i class="fa fa-leaf mr-2"></i>其他季节（3月-11月）
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-green-300">推荐理由</h4>
+                            <p class="text-green-100 text-sm">
+                                长春四季分明，春有百花秋有月，夏有凉风冬有雪。非冬季可游览动植物公园、伪满皇宫、净月潭等景点，气候舒适宜人。
+                            </p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-green-300">必玩项目</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">动植物公园</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">伪满皇宫</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">净月潭</span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">长影世纪城</span>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <h4 class="font-bold mb-2 text-green-300">穿衣指南</h4>
+                            <p class="text-green-100 text-sm">
+                                春夏秋气候舒适，穿着日常衣物即可。夏季注意防晒，春秋早晚温差大，建议带件外套。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 交通住宿 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-primary">
+                        <i class="fa fa-plane mr-2"></i>交通出行
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-plane text-primary mr-2"></i>飞机
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                长春龙嘉国际机场，距市区约35公里。有高铁龙嘉站直达市区，车程约15分钟，非常便捷。
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-train text-primary mr-2"></i>火车
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                长春站、长春西站两大主要火车站。长春站位于市中心，交通便利；长春西站以高铁为主。
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-subway text-primary mr-2"></i>市内交通
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                轨道交通1-4号线覆盖主要景点。公交网络发达，网约车、出租车也很方便。冬季建议选择地铁或打车。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-primary">
+                        <i class="fa fa-bed mr-2"></i>住宿推荐
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-star text-warning mr-2"></i>市中心区域（推荐）
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                重庆路、人民广场、桂林路附近，交通便利，餐饮购物丰富。从经济型到豪华型酒店应有尽有。
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-snowflake-o text-primary mr-2"></i>冰雪游推荐
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                如果主要是为了冰雪新天地，建议住在宽城区或净月区附近，距离景点较近，节省通勤时间。
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold mb-2">
+                                <i class="fa fa-money text-success mr-2"></i>预算参考
+                            </h4>
+                            <p class="text-gray-600 text-sm">
+                                经济型酒店：¥150-300/晚<br>
+                                舒适型酒店：¥300-500/晚<br>
+                                豪华型酒店：¥500-1000/晚
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-gradient-ice text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-white bg-opacity-20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fa fa-comments mr-2"></i>我们在等您
+                </span>
+                <h2 class="text-4xl font-bold mb-4">
+                    期待与您<span class="text-sky-300">相遇长春</span>
+                </h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    如有任何问题，欢迎咨询。长春文旅，期待您的到来！
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa fa-map-marker text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">地理位置</h3>
+                    <p class="text-blue-100">
+                        吉林省长春市<br>
+                        北国春城欢迎您
+                    </p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa fa-phone text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">旅游咨询</h3>
+                    <p class="text-blue-100">
+                        长春市旅游咨询热线<br>
+                        0431-12345
+                    </p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 text-center hover-lift">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa fa-weixin text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">关注我们</h3>
+                    <p class="text-blue-100">
+                        微信公众号：长春文旅<br>
+                        获取最新旅游资讯
+                    </p>
+                </div>
+            </div>
+
+            <!-- 行动号召 -->
+            <div class="mt-16 text-center">
+                <div class="inline-block bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-4">
+                        <i class="fa fa-heart text-red-400 mr-2"></i>
+                        来长春，开启一段难忘的旅程
+                    </h3>
+                    <p class="text-blue-100 mb-6 max-w-xl">
+                        冰雪奇缘、萌趣动物、历史文化——长春，一座充满惊喜的城市。我们期待您的到来！
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#ice-world" class="inline-block bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all shadow-lg">
+                            <i class="fa fa-snowflake-o mr-2"></i>探索冰雪新天地
+                        </a>
+                        <a href="#hero" class="inline-block border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-all">
+                            <i class="fa fa-arrow-up mr-2"></i>返回顶部
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
+                            <i class="fa fa-tree text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">长春文旅</h3>
+                            <p class="text-xs text-gray-400">北国春城 · 魅力之都</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        欢迎来到长春，一座充满魅力的城市。这里有梦幻的冰雪世界、可爱的萌趣动物、厚重的历史文化。期待与您相遇！
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-primary">热门景点</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#ice-world" class="hover:text-white transition-colors">冰雪新天地</a></li>
+                        <li><a href="#zoo" class="hover:text-white transition-colors">动植物公园</a></li>
+                        <li><a href="#history" class="hover:text-white transition-colors">伪满皇宫</a></li>
+                        <li><a href="#guide" class="hover:text-white transition-colors">旅游攻略</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-primary">实用信息</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#guide" class="hover:text-white transition-colors">最佳旅游时间</a></li>
+                        <li><a href="#guide" class="hover:text-white transition-colors">交通出行</a></li>
+                        <li><a href="#guide" class="hover:text-white transition-colors">住宿推荐</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-primary">关注我们</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-40 transition-all">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-40 transition-all">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-40 transition-all">
+                            <i class="fa fa-phone"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        旅游咨询热线<br>
+                        <span class="text-white font-semibold">0431-12345</span>
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 长春文旅宣传网 | 北国春城，魅力之都 | 让更多人了解长春
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== 雪花动画 ==========
+        function createSnowflake() {
+            const snowContainer = document.getElementById('snowContainer');
+            if (!snowContainer) return;
+            
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            
+            const size = Math.random() * 6 + 2;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 10 + 8;
+            const delay = Math.random() * 5;
+            
+            snowflake.style.width = `${size}px`;
+            snowflake.style.height = `${size}px`;
+            snowflake.style.left = `${left}%`;
+            snowflake.style.animationDuration = `${duration}s`;
+            snowflake.style.animationDelay = `${delay}s`;
+            
+            snowContainer.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, (duration + delay) * 1000);
+        }
+        
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createSnowflake, i * 200);
+        }
+        
+        setInterval(createSnowflake, 500);
+        
+        // ========== 移动端菜单 ==========
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+        
+        // ========== 平滑滚动导航 ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    
+                    const navHeight = 80;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ========== 导航栏滚动效果 ==========
+        let lastScrollTop = 0;
+        const nav = document.querySelector('nav');
+        
+        if (nav) {
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 50) {
+                    nav.classList.add('shadow-xl');
+                } else {
+                    nav.classList.remove('shadow-xl');
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+        }
+        
+        // ========== 页面加载动画 ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        const animateElements = document.querySelectorAll('.hover-lift');
+        animateElements.forEach(el => {
+            observer.observe(el);
+        });
+        
+        console.log('=== 长春文旅宣传网站已加载 ===');
+        console.log('1. 导航栏：支持平滑滚动到各区块');
+        console.log('2. 移动端：点击菜单按钮展开/收起导航');
+        console.log('3. 雪花动画：营造冬日氛围');
+        console.log('4. 滚动动画：元素进入视口时淡入');
+    </script>
+</body>
+</html>
